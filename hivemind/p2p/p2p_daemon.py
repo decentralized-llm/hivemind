@@ -242,6 +242,9 @@ class P2P:
             persistent_conn_max_msg_size=persistent_conn_max_msg_size,
         )
 
+        with open("/workspace/sibianl/petals/p2p_daemon.log", "a") as f:
+            f.write(f"{datetime.now()}: check_child_alive start\n")
+
         await self._ping_daemon()
         async def check_child_alive():
             while True:
@@ -254,11 +257,11 @@ class P2P:
     def is_child_alive(self):
         # 检查 _child 进程是否存活
         if self._child is not None and self._child.returncode is None:
-            with open("p2p_daemon.log", "a") as f:
+            with open("/workspace/sibianl/petals/p2p_daemon.log", "a") as f:
                 f.write(f"{datetime.now()}: _child 进程正在运行\n")
             return True
         else:
-            with open("p2p_daemon.log", "a") as f:
+            with open("/workspace/sibianl/petals/p2p_daemon.log", "a") as f:
                 f.write(f"{datetime.now()}: _child 进程已终止或未启动\n")
             return False
 
