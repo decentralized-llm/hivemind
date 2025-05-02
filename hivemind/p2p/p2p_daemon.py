@@ -243,7 +243,22 @@ class P2P:
         )
 
         await self._ping_daemon()
+        async def check_child_alive():
+            while True:
+                await asyncio.sleep(5)
+                self.is_child_alive()
+                
+        asyncio.create_task(check_child_alive())
         return self
+    
+    def is_child_alive(self):
+        # 检查 _child 进程是否存活
+        if self._child is not None and self._child.returncode is None:
+            logger.info("_child 进程正在运行")
+            return True
+        else:
+            logger.info("_child 进程已终止或未启动")
+            return False
 
     @classmethod
     async def is_identity_taken(
