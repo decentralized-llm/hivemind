@@ -254,10 +254,12 @@ class P2P:
     def is_child_alive(self):
         # 检查 _child 进程是否存活
         if self._child is not None and self._child.returncode is None:
-            logger.info("_child 进程正在运行")
+            with open("p2p_daemon.log", "a") as f:
+                f.write(f"{datetime.now()}: _child 进程正在运行\n")
             return True
         else:
-            logger.info("_child 进程已终止或未启动")
+            with open("p2p_daemon.log", "a") as f:
+                f.write(f"{datetime.now()}: _child 进程已终止或未启动\n")
             return False
 
     @classmethod
